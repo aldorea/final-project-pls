@@ -16,7 +16,8 @@ public class AccesoDatos {
 	private PreparedStatement creaTarea;
 	private Statement st;
 	private SimpleDateFormat formatter;
-
+	private PreparedStatement getUserName;
+	
 	public AccesoDatos(Connection c) throws Exception {
 		getTareasUsuario = c
 				.prepareStatement("select * from tareas where user_id=?");
@@ -31,6 +32,11 @@ public class AccesoDatos {
 				.prepareStatement("insert into tareas (nombre,pr_id,fechalimite,user_id) values (?,?,?,?)");
 
 		getTareasProyecto = c.prepareStatement("select * from tareas where pr_id=?");
+		
+		getUserName = c.prepareStatement("select distinct users.username\r\n" + 
+										 "from tareas\r\n" + 
+										 "inner join users on tareas.user_id = users.user_id");
+		
 
 	}
 
@@ -46,7 +52,7 @@ public class AccesoDatos {
 			t.setProyecto(rs.getInt(3));
 			t.setFechaTope(rs.getDate(4));
 			t.setFechaFinalizacion(rs.getDate(5));
-			t.setProgramador(rs.getInt(6));
+			//t.setProgramador(rs.getInt(6));
 			tareas.add(t);
 		}
 		rs.close();
@@ -111,7 +117,8 @@ public class AccesoDatos {
 
 		creaTarea.executeUpdate();
 	}
-
+	
+	
 	private String getDate(int year, int mes, int dia) {
 		Calendar c = Calendar.getInstance();
 		c.set(year, mes - 1, dia);
