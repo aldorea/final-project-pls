@@ -19,13 +19,17 @@
 
 <table>
 <tr>
- <th> ID </th>
- <th> Nombre </th>
+ <th> Nombre tarea </th>
+ <th> Asignado a </th>
+ <th> Fecha prevista finalización </th>
+ <th> Fecha finalización </th>
 </tr>
 <c:forEach items="${tareas}" var="tarea">
    <tr>
       <td>${tarea.nombre}</td>
-      <td>${tarea.id}</td>
+      <td>${tarea.progamdor}</td>
+      <td>${tarea.fechafinalizacion}</td>
+      <td>${tarea.fechalimite}</td>
    </tr>
 </c:forEach>
 </table>
