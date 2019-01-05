@@ -1,5 +1,7 @@
 package edu.uv.dawts.trabajofinal;
 
+import java.sql.Connection;
+
 import javax.annotation.Resource;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -12,8 +14,9 @@ import javax.sql.DataSource;
  */
 @WebListener
 public class ContextListener implements ServletContextListener {
-	@Resource(name = "jdbc/proyectospool")
+	@Resource(lookup="java:jboss/datasource/Laboratorio2")
 	private DataSource ds;
+	private AccesoDatos ad;
 
 	/**
 	 * Default constructor.
@@ -30,7 +33,8 @@ public class ContextListener implements ServletContextListener {
 	public void contextInitialized(ServletContextEvent arg0) {
 		// TODO Auto-generated method stub
 		try {
-			AccesoDatos ad = new AccesoDatos(ds.getConnection());
+			Connection con = ds.getConnection();
+			ad = new AccesoDatos(con);
 			arg0.getServletContext().setAttribute("bd", ad);
 		} catch (Exception ex) {
 			System.out.println("Error creating instance AccesoDatos");
@@ -42,8 +46,7 @@ public class ContextListener implements ServletContextListener {
 	 */
 	public void contextDestroyed(ServletContextEvent arg0) {
 		// TODO Auto-generated method stub
-		AccesoDatos ad = (AccesoDatos) arg0.getServletContext().getAttribute(
-				"bd");
+		AccesoDatos ad = (AccesoDatos) arg0.getServletContext().getAttribute("bd");
 		if (ad != null) {
 			try {
 				ad.closeAll();

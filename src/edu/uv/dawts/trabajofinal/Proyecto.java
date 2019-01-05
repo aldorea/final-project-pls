@@ -1,5 +1,7 @@
 package edu.uv.dawts.trabajofinal;
 
+
+
 //JavaBean Proyecto
 public class Proyecto {
 	private int id;
@@ -23,4 +25,6 @@ public class Proyecto {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
+	
+
 }
