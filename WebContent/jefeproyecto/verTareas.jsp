@@ -34,7 +34,13 @@
 
 <form action="/TrabajoFinal/jefeproyecto/AddTarea" method="POST">
   Nombre de la tarea: <input type="text" name="nombre" />
-  <input type="submit" value="Crear proyecto" />
+  Asignar tarea a: <input type="text" name="usuario" />
+  Fecha prevista finalización:
+  Año (yyyy): <input type="text" name="year" />
+  Mes (mm): <input type="text" name="mes" />
+  Día (dd): <input type="text" name="dia" />
+  <input type="hidden" name="proyecto" value="<%= request.getAttribute("proyecto_id") %>" />
+  <input type="submit" value="Crear tarea" />
 </form>
 
 </body>
