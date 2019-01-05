@@ -38,7 +38,7 @@ public class VerTareas extends HttpServlet {
 		AccesoDatos ad = (AccesoDatos) getServletContext().getAttribute("bd");
 			
 		int id = Integer.parseInt(request.getParameter("id_pr"));
-		String nombre = request.getParameter("nombreProyecto");
+		String nombre = request.getParameter("nombre_pr");
 		
 		try {
 			ArrayList<Tarea> tareas = ad.getAllTareas(id);
