@@ -29,9 +29,9 @@ public class AccesoDatos {
 				.prepareStatement("insert into proyectos (nombre) values (?)");
 		creaTarea = c
 				.prepareStatement("insert into tareas (nombre,pr_id,fechalimite,user_id) values (?,?,?,?)");
-		
+
 		getTareasProyecto = c.prepareStatement("select * from tareas where pr_id=?");
-	
+
 	}
 
 	public ArrayList<Tarea> getAllTareas(int proyecto) throws Exception {
@@ -45,8 +45,8 @@ public class AccesoDatos {
 			t.setNombre(rs.getString(2));
 			t.setProyecto(rs.getInt(3));
 			t.setFechaTope(rs.getDate(4));
-			t.setProgramador(rs.getInt(5));
-			t.setFechaFinalizacion(rs.getDate(6));
+			t.setFechaFinalizacion(rs.getDate(5));
+			t.setProgramador(rs.getInt(6));
 			tareas.add(t);
 		}
 		rs.close();
