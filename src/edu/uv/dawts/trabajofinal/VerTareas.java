@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class VerTareas
@@ -36,6 +37,7 @@ public class VerTareas extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		AccesoDatos ad = (AccesoDatos) getServletContext().getAttribute("bd");
+		HttpSession session = request.getSession();
 
 		int id = Integer.parseInt(request.getParameter("id_pr"));
 		String nombre = request.getParameter("nombre_pr");
@@ -43,7 +45,7 @@ public class VerTareas extends HttpServlet {
 		try {
 			ArrayList<Tarea> tareas = ad.getAllTareas(id);
 			request.setAttribute("tareas", tareas);
-			request.setAttribute("proyecto_id", id);
+			session.setAttribute("proyecto_id", id);
 
 			getServletContext().getRequestDispatcher("/jefeproyecto/verTareas.jsp").forward(request,
 					response);

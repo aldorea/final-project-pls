@@ -43,7 +43,7 @@
   Año (yyyy): <input type="text" name="year" />
   Mes (mm): <input type="text" name="mes" />
   Día (dd): <input type="text" name="dia" />
-  <input type="hidden" name="proyecto" value="<%= request.getAttribute("proyecto_id") %>" />
+  <input type="hidden" name="proyecto" value="<%= session.getAttribute("proyecto_id") %>" />
   <input type="submit" value="Crear tarea" />
 </form>
 
