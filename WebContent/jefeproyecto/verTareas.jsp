@@ -27,7 +27,7 @@
 <c:forEach items="${tareas}" var="tarea">
    <tr>
       <td>${tarea.nombre}</td>
-      <td>${tarea.progamdor}</td>
+      <td>${tarea.programdor}</td>
       <td>${tarea.fechafinalizacion}</td>
       <td>${tarea.fechalimite}</td>
    </tr>
