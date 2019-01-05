@@ -27,9 +27,9 @@
 <c:forEach items="${tareas}" var="tarea">
    <tr>
       <td>${tarea.nombre}</td>
-      <td>${tarea.programdor}</td>
-      <td>${tarea.fechafinalizacion}</td>
-      <td>${tarea.fechalimite}</td>
+      <td>${tarea.programador}</td>
+      <td>${tarea.fechaFinalizacion}</td>
+      <td>${tarea.fechaTope}</td>
    </tr>
 </c:forEach>
 </table>
