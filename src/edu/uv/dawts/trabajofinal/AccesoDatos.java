@@ -17,10 +17,10 @@ public class AccesoDatos {
 	private Statement st;
 	private SimpleDateFormat formatter;
 	private PreparedStatement getUserName;
-	
+
 	public AccesoDatos(Connection c) throws Exception {
 		getTareasUsuario = c
-				.prepareStatement("select * from tareas where user_id=?");
+				.prepareStatement("select * from tareas where username=?");
 		setFechaFinalizacion = c
 				.prepareStatement("update tareas set fechafinalizacion=? where tr_id=?");
 		String pattern = "yyyy-MM-dd";
@@ -29,14 +29,14 @@ public class AccesoDatos {
 		creaProyecto = c
 				.prepareStatement("insert into proyectos (nombre) values (?)");
 		creaTarea = c
-				.prepareStatement("insert into tareas (nombre,pr_id,fechalimite,user_id) values (?,?,?,?)");
+				.prepareStatement("insert into tareas (nombre,pr_id,fechalimite,username) values (?,?,?,?)");
 
 		getTareasProyecto = c.prepareStatement("select * from tareas where pr_id=?");
-		
-		getUserName = c.prepareStatement("select distinct users.username\r\n" + 
-										 "from tareas\r\n" + 
-										 "inner join users on tareas.user_id = users.user_id");
-		
+
+		// getUserName = c.prepareStatement("select distinct users.username\r\n" +
+		// 								 "from tareas\r\n" +
+		// 								 "inner join users on tareas.user_id = users.user_id");
+
 
 	}
 
@@ -47,12 +47,12 @@ public class AccesoDatos {
 		ArrayList<Tarea> tareas = new ArrayList<Tarea>();
 		while (rs.next()) {
 			Tarea t = new Tarea();
-			t.setId(rs.getInt(1));
-			t.setNombre(rs.getString(2));
-			t.setProyecto(rs.getInt(3));
-			t.setFechaTope(rs.getDate(4));
-			t.setFechaFinalizacion(rs.getDate(5));
-			//t.setProgramador(rs.getInt(6));
+			t.setId(rs.getInt("ta_id"));
+			t.setNombre(rs.getString("nombre"));
+			t.setProyecto(rs.getInt("pr_id"));
+			t.setFechaTope(rs.getDate("fechalimite"));
+			t.setFechaFinalizacion(rs.getDate("fechafinalizacion"));
+			t.setProgramador(rs.getString("username"));
 			tareas.add(t);
 		}
 		rs.close();
@@ -80,12 +80,12 @@ public class AccesoDatos {
 		ArrayList<Tarea> tareas = new ArrayList<Tarea>();
 		while (rs.next()) {
 			Tarea t = new Tarea();
-			t.setId(rs.getInt(1));
-			t.setNombre(rs.getString(2));
-			t.setProyecto(rs.getInt(3));
-			t.setFechaTope(rs.getDate(4));
-			t.setProgramador(rs.getInt(5));
-			t.setFechaFinalizacion(rs.getDate(6));
+			t.setId(rs.getInt("ta_id"));
+			t.setNombre(rs.getString("nombre"));
+			t.setProyecto(rs.getInt("pr_id"));
+			t.setFechaTope(rs.getDate("fechalimite"));
+			t.setProgramador(rs.getString("username"));
+			t.setFechaFinalizacion(rs.getDate("fechafinalizacion"));
 			tareas.add(t);
 		}
 		rs.close();
@@ -107,18 +107,18 @@ public class AccesoDatos {
 		creaProyecto.executeUpdate();
 	}
 
-	public void creaTarea(String nombre, int proyecto, int usuario, int year,
+	public void creaTarea(String nombre, int proyecto, String usuario, int year,
 			int mes, int dia) throws Exception {
 		String limite = getDate(year, mes, dia);
 		creaTarea.setString(1, nombre);
 		creaTarea.setInt(2, proyecto);
 		creaTarea.setString(3, limite);
-		creaTarea.setInt(4, usuario);
+		creaTarea.setString(4, usuario);
 
 		creaTarea.executeUpdate();
 	}
-	
-	
+
+
 	private String getDate(int year, int mes, int dia) {
 		Calendar c = Calendar.getInstance();
 		c.set(year, mes - 1, dia);

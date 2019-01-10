@@ -9,7 +9,7 @@ public class Tarea {
 	private int proyecto;
 	private Date fechaTope;
 	private Date fechaFinalizacion;
-	private int programador;
+	private String programador;
 
 	public Tarea() {
 	}
@@ -34,7 +34,7 @@ public class Tarea {
 		fechaFinalizacion = d;
 	}
 
-	public void setProgramador(int p) {
+	public void setProgramador(String p) {
 		programador = p;
 	}
 
@@ -58,7 +58,7 @@ public class Tarea {
 		return fechaFinalizacion;
 	}
 
-	public int getProgramador() {
+	public String getProgramador() {
 		return programador;
 	}
 }

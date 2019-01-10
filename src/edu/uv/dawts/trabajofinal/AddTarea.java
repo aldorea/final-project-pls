@@ -43,7 +43,7 @@ public class AddTarea extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		String nombre = request.getParameter("nombre");
 		int proyecto = Integer.parseInt(request.getParameter("proyecto"));
-		int usuario = Integer.parseInt(request.getParameter("usuario"));
+		String usuario = request.getParameter("usuario");
 		int year = Integer.parseInt(request.getParameter("year"));
 		int mes = Integer.parseInt(request.getParameter("mes"));
 		int dia = Integer.parseInt(request.getParameter("dia"));
