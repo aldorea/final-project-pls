@@ -33,10 +33,6 @@ public class AccesoDatos {
 
 		getTareasProyecto = c.prepareStatement("select * from tareas where pr_id=?");
 
-		// getUserName = c.prepareStatement("select distinct users.username\r\n" +
-		// 								 "from tareas\r\n" +
-		// 								 "inner join users on tareas.user_id = users.user_id");
-
 
 	}
 
@@ -74,8 +70,8 @@ public class AccesoDatos {
 		return proyectos;
 	}
 
-	public ArrayList<Tarea> getTareasUsuario(int user) throws Exception {
-		getTareasUsuario.setInt(1, user);
+	public ArrayList<Tarea> getTareasUsuario(String user) throws Exception {
+		getTareasUsuario.setString(1, user);
 		ResultSet rs = getTareasUsuario.executeQuery();
 		ArrayList<Tarea> tareas = new ArrayList<Tarea>();
 		while (rs.next()) {
