@@ -1,25 +1,24 @@
 package edu.uv.dawts.trabajofinal;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class VerTareasProgramador
+ * Servlet implementation class logout
  */
-@WebServlet("/programador/VerTareas")
-public class VerTareasProgramador extends HttpServlet {
+@WebServlet("/logout")
+public class logout extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public VerTareasProgramador() {
+    public logout() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -28,23 +27,9 @@ public class VerTareasProgramador extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		AccesoDatos ad = (AccesoDatos) getServletContext().getAttribute("bd");
-		
-		try {
-			String user = request.getRemoteUser();
-			String rol = ad.getRol(user);
-			ArrayList<Tarea> tareas = ad.getTareasUsuario(user);
-			request.setAttribute("tareas", tareas);
-
-			getServletContext().getRequestDispatcher("/programador/verTareas.jsp").forward(request,
-					response);
-		} catch (Exception e1) {
-			request.setAttribute("msg",
-					"Se ha producido un error interno al crear el proyecto");
-			getServletContext().getRequestDispatcher("/errorPage.jsp").forward(
-					request, response);
-			e1.printStackTrace();
-		}
+		HttpSession session = request.getSession();
+		session.invalidate();
+		response.getWriter().append("Sesión cerrada.");
 	}
 
 	/**

@@ -9,13 +9,13 @@
 </head>
 <body>
 	<h1>Manejador de Proyectos</h1>
-	<p>Bienvenido <% request.getAttribute("user"); %></p>
-	<c:set var="rol" scope="request" value="rol"/>
-	<c:if test="${rol eq 'jefe_proyecto'} }">
-		<a href="/jefeproyecto/muestraProyectos.jsp">Ver proyectos</a>
+	<p>Bienvenido <% String rol = (String) request.getAttribute("user"); %></p>
+	<c:out value="${rol}"></c:out>
+	<c:if test="${rol eq 'jefe_proyecto'}">
+		<a href="/jefeproyecto/muestraProyectos">Ver proyectos</a>
 	</c:if>
-	<c:if test="${rol eq 'programador'} }">
-		<a href="/programador/verTareas.jsp">Ver tus tareas</a>
+	<c:if test="${rol eq 'programador'}">
+		<a href="/programador/verTareas">Ver tus tareas</a>
 	</c:if>
 </body>
 </html>

@@ -16,7 +16,7 @@ public class AccesoDatos {
 	private PreparedStatement creaTarea;
 	private Statement st;
 	private SimpleDateFormat formatter;
-	private PreparedStatement getUserName;
+	private PreparedStatement getUserRole;
 
 	public AccesoDatos(Connection c) throws Exception {
 		getTareasUsuario = c
@@ -32,6 +32,7 @@ public class AccesoDatos {
 				.prepareStatement("insert into tareas (nombre,pr_id,fechalimite,username) values (?,?,?,?)");
 
 		getTareasProyecto = c.prepareStatement("select * from tareas where pr_id=?");
+		getUserRole = c.prepareStatement("select role from roles where username=?");
 
 
 	}
@@ -68,6 +69,13 @@ public class AccesoDatos {
 		}
 		rs.close();
 		return proyectos;
+	}
+	
+	public String getRol(String username) throws Exception {
+		getUserRole.setString(1, username);
+		ResultSet rs = getUserRole.executeQuery();
+		rs.next();
+		return rs.getString("role");
 	}
 
 	public ArrayList<Tarea> getTareasUsuario(String user) throws Exception {
@@ -113,7 +121,7 @@ public class AccesoDatos {
 
 		creaTarea.executeUpdate();
 	}
-
+	
 
 	private String getDate(int year, int mes, int dia) {
 		Calendar c = Calendar.getInstance();

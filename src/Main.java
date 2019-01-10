@@ -1,25 +1,27 @@
-package edu.uv.dawts.trabajofinal;
+
 
 import java.io.IOException;
-import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import edu.uv.dawts.trabajofinal.AccesoDatos;
+
 /**
- * Servlet implementation class VerTareasProgramador
+ * Servlet implementation class Main
  */
-@WebServlet("/programador/VerTareas")
-public class VerTareasProgramador extends HttpServlet {
+@WebServlet("/index")
+public class Main extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public VerTareasProgramador() {
+	
+	private String rol;
+    public Main() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,18 +34,27 @@ public class VerTareasProgramador extends HttpServlet {
 		
 		try {
 			String user = request.getRemoteUser();
-			String rol = ad.getRol(user);
-			ArrayList<Tarea> tareas = ad.getTareasUsuario(user);
-			request.setAttribute("tareas", tareas);
+			this.setRol(ad.getRol(user));
+			request.setAttribute("user", user);
+			request.setAttribute("rol", this.getRol());
+			
+			System.out.println(user);
+			System.out.println(rol);
+			
+//			if (rol.equals("jefe_proyecto")) {				
+//				getServletContext().getRequestDispatcher("/jefeproyecto/muestraProyectos.jsp").forward(request, response);
+//			} else {
+//				getServletContext().getRequestDispatcher("/programador/verTareas.jsp").forward(request, response);				
+//			}
+			
+			getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
 
-			getServletContext().getRequestDispatcher("/programador/verTareas.jsp").forward(request,
-					response);
-		} catch (Exception e1) {
+		} catch (Exception e) {
 			request.setAttribute("msg",
 					"Se ha producido un error interno al crear el proyecto");
 			getServletContext().getRequestDispatcher("/errorPage.jsp").forward(
 					request, response);
-			e1.printStackTrace();
+			e.printStackTrace();
 		}
 	}
 
@@ -54,5 +65,15 @@ public class VerTareasProgramador extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
+
+	public String getRol() {
+		return rol;
+	}
+
+	public void setRol(String rol) {
+		this.rol = rol;
+	}
+	
+	
 
 }
