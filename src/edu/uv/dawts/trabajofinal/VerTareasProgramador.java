@@ -37,7 +37,12 @@ public class VerTareasProgramador extends HttpServlet {
 			String user = request.getRemoteUser();
 			String rol = ad.getRol(user);
 			ArrayList<Tarea> tareas = ad.getTareasUsuario(user);
+			
+			Date date = new Date();
+			LocalDate today = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			
 			request.setAttribute("tareas", tareas);
+			request.setAttribute("today", today);
 
 			getServletContext().getRequestDispatcher("/programador/verTareas.jsp").forward(request,
 					response);
@@ -64,9 +69,6 @@ public class VerTareasProgramador extends HttpServlet {
 		int dia = localDate.getDayOfMonth();
 		int tr_id = Integer.parseInt(request.getParameter("tr_id"));
 		
-		System.out.println("year" + year);
-		System.out.println("mes" + mes);
-		System.out.println("dia" + dia);
 		
 		try {
 			ad.setFechaFinalizacion(year, mes, dia, tr_id);

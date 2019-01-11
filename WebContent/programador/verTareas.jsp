@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<jsp:useBean id="now" class="java.util.Date" />
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -25,6 +26,9 @@
  <th> </th>
 </tr>
 <c:forEach items="${tareas}" var="tarea">
+	<c:if test="${tarea.fechaTope < now}">
+		We have not yet reached the submit date.
+	</c:if>
    <tr>
       <td>${tarea.nombre}</td>
       <td>${tarea.fechaTope}</td>
