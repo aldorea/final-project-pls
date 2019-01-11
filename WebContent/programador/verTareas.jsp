@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<jsp:useBean id="now" class="java.util.Date" />
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -12,6 +13,7 @@
    table, tr, td , th {border: 1px solid blue;}
    th {font-weight: bold;}
    td {padding-left: 2em; padding-right:2em;}
+   .overdue {background: indianred}
 </style>
 </head>
 <body>
@@ -26,10 +28,15 @@
  <th> </th>
 </tr>
 <c:forEach items="${tareas}" var="tarea">
-	<c:if test="${tarea.fechaTope < now}">
-		We have not yet reached the submit date.
+	<fmt:formatDate var="fechaTope" value="${tarea.fechaTope}" pattern="yyyy-MM-dd HH:mm:ss"/>
+	<c:set var="today_date" value="<%=new java.util.Date()%>"/>
+	<fmt:formatDate var="today_formatted_date" value="${today_date}" pattern="yyyy-MM-dd HH:mm:ss"/>  
+	<c:if test="${fechaTope lt today_formatted_date}">
+   		<tr class="overdue">
 	</c:if>
-   <tr>
+	<c:if test="${fechaTope gt today_formatted_date}">
+   		<tr>
+	</c:if>
       <td>${tarea.nombre}</td>
       <td>${tarea.fechaTope}</td>
       <td>${tarea.fechaFinalizacion}</td>
