@@ -15,9 +15,9 @@
 	<% AccesoDatos ad = (AccesoDatos) getServletContext().getAttribute("bd");
 	String rol = ad.getRol(request.getRemoteUser());
 	if(rol.equals("jefe_proyecto")){
-		out.println("<a href='/jefeproyecto/muestraProyectos'>Ver proyectos</a>");		
+		out.println("<a href='jefeproyecto/muestraProyectos.jsp'>Ver proyectos</a>");		
 	}else{
-		out.println("<a href='/programador/verTareas'>Ver tus tareas</a>");		
+		out.println("<a href='programador/verTareas'>Ver tus tareas</a>");		
 	}
 	%>
 	
@@ -26,7 +26,7 @@
 		out.println("<a href='/jefeproyecto/muestraProyectos'>Ver proyectos</a>");	
 	</c:if>
 	<c:if test="${user.rol eq 'programador'}">
-		<a href="/programador/verTareas">Ver tus tareas</a>
+		<a href="/programador/verTareas.jsp">Ver tus tareas</a>
 	</c:if> --%> 
 </body>
 </html>
