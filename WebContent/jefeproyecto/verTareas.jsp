@@ -28,8 +28,8 @@
    <tr>
       <td>${tarea.nombre}</td>
       <td>${tarea.programador}</td>
-      <td>${tarea.fechaFinalizacion}</td>
       <td>${tarea.fechaTope}</td>
+      <td>${tarea.fechaFinalizacion}</td>
    </tr>
 </c:forEach>
 </table>
