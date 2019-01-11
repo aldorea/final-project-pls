@@ -2,8 +2,20 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
   <display-name>taller10</display-name>
   <welcome-file-list>
-    <welcome-file>/index</welcome-file>
+    <welcome-file>/index.jsp</welcome-file>
   </welcome-file-list>
+  
+  <filter>
+	  <filter-name>AuthorizationFilter</filter-name>
+  	<filter-class>edu.uv.dawts.trabajofinal.AuthorizationFilter</filter-class>
+  </filter>
+  
+  <filter-mapping>
+  	<filter-name>AuthorizationFilter</filter-name>
+  	<url-pattern>/j_security_check</url-pattern>
+ 	
+  </filter-mapping>
+  
   <login-config>
     <auth-method>FORM</auth-method>
     <realm-name>Acceso restringido a taller 9</realm-name>

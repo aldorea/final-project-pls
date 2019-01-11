@@ -1,3 +1,4 @@
+package edu.uv.dawts.trabajofinal;
 
 
 import java.io.IOException;
@@ -6,8 +7,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import edu.uv.dawts.trabajofinal.AccesoDatos;
 
 /**
  * Servlet implementation class Main
@@ -20,7 +19,7 @@ public class Main extends HttpServlet {
      * @see HttpServlet#HttpServlet()
      */
 	
-	private String rol;
+	
     public Main() {
         super();
         // TODO Auto-generated constructor stub
@@ -33,21 +32,31 @@ public class Main extends HttpServlet {
 		AccesoDatos ad = (AccesoDatos) getServletContext().getAttribute("bd");
 		
 		try {
-			String user = request.getRemoteUser();
-			this.setRol(ad.getRol(user));
-			request.setAttribute("user", user);
-			request.setAttribute("rol", this.getRol());
+			if (request.getRemoteUser() != null) {
+				
+				Role user = new Role();
+				String test = request.getRemoteUser();
+				user.setUsername(test);
+				System.out.println("User: print " + test);
+				String rol = ad.getRol(test);
+				user.setRol(rol);
+				
+				request.setAttribute("user",user);
+				
+				System.out.println("ROL iMPRIMIENDO"  );
+				getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
+				
+//				if (rol.equals("jefe_proyecto")) {				
+//					getServletContext().getRequestDispatcher("/jefeproyecto/muestraProyectos.jsp").forward(request, response);
+//				} else {
+//					getServletContext().getRequestDispatcher("/programador/verTareas.jsp").forward(request, response);				
+//				}
 			
-			System.out.println(user);
-			System.out.println(rol);
+			}else {
+				getServletContext().getRequestDispatcher("/login.html").forward(request, response);	
+			}
 			
-//			if (rol.equals("jefe_proyecto")) {				
-//				getServletContext().getRequestDispatcher("/jefeproyecto/muestraProyectos.jsp").forward(request, response);
-//			} else {
-//				getServletContext().getRequestDispatcher("/programador/verTareas.jsp").forward(request, response);				
-//			}
-			
-			getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
+
 
 		} catch (Exception e) {
 			request.setAttribute("msg",
@@ -66,14 +75,7 @@ public class Main extends HttpServlet {
 		doGet(request, response);
 	}
 
-	public String getRol() {
-		return rol;
-	}
 
-	public void setRol(String rol) {
-		this.rol = rol;
-	}
-	
 	
 
 }
