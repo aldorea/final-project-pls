@@ -22,12 +22,19 @@
  <th> Nombre tarea </th>
  <th> Fecha prevista finalización </th>
  <th> Fecha finalización </th>
+ <th> </th>
 </tr>
 <c:forEach items="${tareas}" var="tarea">
    <tr>
       <td>${tarea.nombre}</td>
-      <td>${tarea.fechaFinalizacion}</td>
       <td>${tarea.fechaTope}</td>
+      <td>${tarea.fechaFinalizacion}</td>
+      <td>
+      	<form action="/TrabajoFinal/programador/VerTareas" method="POST">
+      		<input type="hidden" name="tr_id" value="${tarea.id}" />
+      		<button>Finalizar tarea</button>
+      	</form>
+      </td>
    </tr>
 </c:forEach>
 </table>

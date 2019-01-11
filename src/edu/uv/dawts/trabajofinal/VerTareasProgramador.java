@@ -1,7 +1,10 @@
 package edu.uv.dawts.trabajofinal;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -51,8 +54,27 @@ public class VerTareasProgramador extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		AccesoDatos ad = (AccesoDatos) getServletContext().getAttribute("bd");
+		Date today = new Date();
+		LocalDate localDate = today.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+	
+		
+		int year = localDate.getYear();
+		int mes = localDate.getMonthValue();
+		int dia = localDate.getDayOfMonth();
+		int tr_id = Integer.parseInt(request.getParameter("tr_id"));
+		
+		System.out.println("year" + year);
+		System.out.println("mes" + mes);
+		System.out.println("dia" + dia);
+		
+		try {
+			ad.setFechaFinalizacion(year, mes, dia, tr_id);
+			doGet(request, response);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
