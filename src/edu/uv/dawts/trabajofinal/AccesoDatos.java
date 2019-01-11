@@ -22,7 +22,7 @@ public class AccesoDatos {
 		getTareasUsuario = c
 				.prepareStatement("select * from tareas where username=?");
 		setFechaFinalizacion = c
-				.prepareStatement("update tareas set fechafinalizacion=? where tr_id=?");
+				.prepareStatement("update tareas set fechafinalizacion=? where ta_id=?");
 		String pattern = "yyyy-MM-dd";
 		formatter = new SimpleDateFormat(pattern);
 		st = c.createStatement();
