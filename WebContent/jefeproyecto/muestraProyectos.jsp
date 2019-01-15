@@ -25,7 +25,7 @@
 <c:forEach items="${proyectos}" var="proyecto">
    <tr> 
       <td>${proyecto.nombre} </td> 
-      <td><form action="/TrabajoFinal/jefeproyecto/VerTareas" method="POST">
+      <td><form action="/TrabajoFinal/jefeproyecto/VerTareas" method="POST" enctype="application/json">
               <input type="hidden" name="id_pr" value="${proyecto.id}"/>
               <input type="hidden" name="nombre_pr" value="${proyecto.nombre}"/>
               <input type="submit" value="Ver tareas" />
@@ -37,7 +37,7 @@
 
 <h2> Crear un nuevo proyecto </h2>
 
-<form action="/TrabajoFinal/jefeproyecto/AddProyecto" method="POST">
+<form action="/TrabajoFinal/jefeproyecto/AddProyecto" method="POST" enctype="application/json">
   Nombre del proyecto: <input type="text" name="nombre" />
   <input type="submit" value="Crear proyecto" />
 </form>
