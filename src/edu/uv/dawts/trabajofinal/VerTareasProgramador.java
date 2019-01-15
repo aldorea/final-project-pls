@@ -1,6 +1,8 @@
 package edu.uv.dawts.trabajofinal;
 
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -18,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/programador/VerTareas")
 public class VerTareasProgramador extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -32,26 +34,39 @@ public class VerTareasProgramador extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		AccesoDatos ad = (AccesoDatos) getServletContext().getAttribute("bd");
-		
+		OutputStream out = response.getOutputStream();
+		PrintWriter pw = new PrintWriter(out);
+
 		try {
 			String user = request.getRemoteUser();
 			String rol = ad.getRol(user);
 			ArrayList<Tarea> tareas = ad.getTareasUsuario(user);
-			
+
 			Date date = new Date();
 			LocalDate today = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-			
+
 			request.setAttribute("tareas", tareas);
 			request.setAttribute("today", today);
 
-			getServletContext().getRequestDispatcher("/programador/verTareas.jsp").forward(request,
-					response);
+			if (request.getHeader("Accept").equals("application/json")) {
+				response.setContentType("application/json; charset=utf-8");
+				response.flushBuffer();
+				Util util = new Util<Tarea>();
+				pw.println(util.dataToJson(tareas));
+			} else {
+				response.setContentType("text/html; charset=utf-8");
+				getServletContext().getRequestDispatcher("/programador/verTareas.jsp").forward(request, response);
+			}
+
 		} catch (Exception e1) {
 			request.setAttribute("msg",
 					"Se ha producido un error interno al crear el proyecto");
 			getServletContext().getRequestDispatcher("/errorPage.jsp").forward(
 					request, response);
 			e1.printStackTrace();
+		} finally {
+			pw.flush();
+			pw.close();
 		}
 	}
 
@@ -62,14 +77,14 @@ public class VerTareasProgramador extends HttpServlet {
 		AccesoDatos ad = (AccesoDatos) getServletContext().getAttribute("bd");
 		Date today = new Date();
 		LocalDate localDate = today.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-	
-		
+
+
 		int year = localDate.getYear();
 		int mes = localDate.getMonthValue();
 		int dia = localDate.getDayOfMonth();
 		int tr_id = Integer.parseInt(request.getParameter("tr_id"));
-		
-		
+
+
 		try {
 			ad.setFechaFinalizacion(year, mes, dia, tr_id);
 			doGet(request, response);
