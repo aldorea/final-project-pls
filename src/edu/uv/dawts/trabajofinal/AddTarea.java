@@ -50,8 +50,6 @@ public class AddTarea extends HttpServlet {
 		int mes = Integer.parseInt(request.getParameter("mes"));
 		int dia = Integer.parseInt(request.getParameter("dia"));
 		AccesoDatos ad = (AccesoDatos) getServletContext().getAttribute("bd");
-		OutputStream out = response.getOutputStream();
-		PrintWriter pw = new PrintWriter(out);
 
 		try {
 			ad.creaTarea(nombre, proyecto, usuario, year, mes, dia);
@@ -60,10 +58,17 @@ public class AddTarea extends HttpServlet {
 			request.setAttribute("tareas", tareas);
 
 			if (request.getHeader("Accept").equals("application/json")) {
+				OutputStream out = response.getOutputStream();
+				 PrintWriter pw = new PrintWriter(out);
+				 
 				response.setContentType("application/json; charset=utf-8");
 				response.flushBuffer();
 				Util util = new Util<Tarea>();
-				pw.println(util.dataToJson(tareas));
+				 pw.println(util.dataToJson(tareas));
+				 pw.flush();
+				 pw.close();
+				 out.close();
+
 			} else {
 				response.setContentType("text/html; charset=utf-8");
 				getServletContext().getRequestDispatcher("/jefeproyecto/verTareas.jsp").forward(request, response);
@@ -74,9 +79,6 @@ public class AddTarea extends HttpServlet {
 					"Se ha producido un error interno al crear el proyecto");
 			getServletContext().getRequestDispatcher("/errorPage.jsp").forward(
 					request, response);
-		} finally {
-			pw.flush();
-			pw.close();
 		}
 
 	}

@@ -44,8 +44,6 @@ public class AddProyecto extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		String nombreProyecto = request.getParameter("nombre");
 		AccesoDatos ad = (AccesoDatos) getServletContext().getAttribute("bd");
-		OutputStream out = response.getOutputStream();
-		PrintWriter pw = new PrintWriter(out);
 
 		try {
 			ad.creaProyecto(nombreProyecto);
@@ -54,10 +52,15 @@ public class AddProyecto extends HttpServlet {
 			request.setAttribute("proyectos", proyectos);
 
 			if (request.getHeader("Accept").equals("application/json")) {
+				OutputStream out = response.getOutputStream();
+				PrintWriter pw = new PrintWriter(out);
 				response.setContentType("application/json; charset=utf-8");
 				response.flushBuffer();
 				Util util = new Util<Tarea>();
-				pw.println(util.dataToJson(proyectos));
+				 pw.println(util.dataToJson(proyectos));
+				 pw.flush();
+				 pw.close();
+				 out.close();
 			} else {
 				response.setContentType("text/html; charset=utf-8");
 				getServletContext().getRequestDispatcher("/jefeproyecto/muestraProyectos.jsp").forward(request, response);
@@ -67,9 +70,6 @@ public class AddProyecto extends HttpServlet {
 					"Se ha producido un error interno al crear el proyecto");
 			getServletContext().getRequestDispatcher("/errorPage.jsp").forward(
 					request, response);
-		} finally {
-			pw.flush();
-			pw.close();
 		}
 
 	}

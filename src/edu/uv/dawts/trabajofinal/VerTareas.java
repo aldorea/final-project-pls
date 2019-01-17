@@ -46,8 +46,6 @@ public class VerTareas extends HttpServlet {
 			throws ServletException, IOException {
 		AccesoDatos ad = (AccesoDatos) getServletContext().getAttribute("bd");
 		HttpSession session = request.getSession();
-		OutputStream out = response.getOutputStream();
-		PrintWriter pw = new PrintWriter(out);
 
 		int id = Integer.parseInt(request.getParameter("id_pr"));
 		String nombre = request.getParameter("nombre_pr");
@@ -56,14 +54,20 @@ public class VerTareas extends HttpServlet {
 			ArrayList<Tarea> tareas = ad.getAllTareas(id);
 			request.setAttribute("tareas", tareas);
 			session.setAttribute("proyecto_id", id);
-			
+
 			System.out.println("Header: " + request.getHeader("Accept"));
 
 			if (request.getHeader("Accept").equals("application/json")) {
+				OutputStream out = response.getOutputStream();
+				PrintWriter pw = new PrintWriter(out);
+				
 				response.setContentType("application/json; charset=utf-8");
 				response.flushBuffer();
 				Util util = new Util<Tarea>();
-				pw.println(util.dataToJson(tareas));
+				 pw.println(util.dataToJson(tareas));
+				 pw.flush();
+				 pw.close();
+				 out.close();
 			} else {
 				response.setContentType("text/html; charset=utf-8");
 				getServletContext().getRequestDispatcher("/jefeproyecto/verTareas.jsp").forward(request, response);
@@ -72,9 +76,6 @@ public class VerTareas extends HttpServlet {
 		} catch (Exception e) {
 			request.setAttribute("msg", "Se ha producido un error interno al crear el proyecto");
 			getServletContext().getRequestDispatcher("/errorPage.jsp").forward(request, response);
-		} finally {
-			pw.flush();
-			pw.close();
 		}
 
 	}
